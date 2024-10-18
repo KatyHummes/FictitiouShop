@@ -34,9 +34,9 @@ php artisan serve
 ```
 npm run dev
 ```
-- execute as migrações: (seeds são opcionais)
+- execute as migrações:
 ```
-php artisan migrate --seed
+php artisan migrate 
 ```
 e finalmente execute este comando:
 ```
