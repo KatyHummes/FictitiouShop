@@ -14,8 +14,8 @@ class ProductController extends Controller
     public function fetchProductsFromApi()
     {
         $response = Http::withoutVerifying()->get('https://dummyjson.com/products');
+            // env('DUMMY_API_URL');
         $products = $response->json()['products'];
-        // dd('produtos', $products);
         foreach ($products as $product) {
             Product::create([
                 'title' => $product['title'],
@@ -42,7 +42,6 @@ class ProductController extends Controller
                 'height' => $dimensions['height'],
                 'depth' => $dimensions['depth'],
             ]);
-
             foreach ($product['images'] as $image) {
                 ProductImage::create([
                     'product_id' => $product['id'],
