@@ -7,8 +7,8 @@ import Dropdown from '@/Components/Dropdown.vue';
 import DropdownLink from '@/Components/DropdownLink.vue';
 import NavLink from '@/Components/NavLink.vue';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
-import AutoComplete from 'primevue/autocomplete';
-import FloatLabel from 'primevue/floatlabel';
+import { useCartStore } from '../Stores/cartStore.js';
+import ShoppingCart from '@/Components/ShoppingCart.vue';
 import InputText from 'primevue/inputtext';
 import InputGroup from 'primevue/inputgroup';
 import InputGroupAddon from 'primevue/inputgroupaddon';
@@ -16,6 +16,8 @@ import InputGroupAddon from 'primevue/inputgroupaddon';
 defineProps({
     title: String,
 });
+
+const cartStore = useCartStore();
 
 const showingNavigationDropdown = ref(false);
 
@@ -34,6 +36,12 @@ const logout = () => {
 const search = (event) => {
     items.value = [...Array(10).keys()].map((item) => event.query + '-' + item);
 }
+
+const cartVisible = ref(false);
+
+const toggleCart = () => {
+    cartStore.toggleCart();
+};
 </script>
 
 <template>
@@ -246,18 +254,17 @@ const search = (event) => {
                                     </Dropdown>
                                 </div>
                             </div>
-                            <!-- favoritos -->
-                            <a href="/favorites"
-                                class="flex justify-center items-center px-4 text-slate-950 hover:text-gray-700">
-                                <i class="pi pi-heart-fill"></i>
-                            </a>
-                            <!-- carrinho -->
-                            <a href="/cart"
-                                class="flex justify-center items-center px-4 text-slate-950 hover:text-gray-700">
-                                <i class="pi pi-cart-plus"></i>
-                            </a>
+                            
+                            <div class="flex">
+                                <button @click="addToFavorites(product)">
+                                    <i class="pi pi-heart-fill p-1"></i>
+                                </button>
+                                <!-- ver carrinho -->
+                                <button @click="toggleCart()">
+                                    <i class="pi pi-cart-plus p-1"></i>
+                                </button>
+                            </div>
                         </div>
-
 
                         <!-- Hamburger -->
                         <div class="flex items-center sm:hidden">

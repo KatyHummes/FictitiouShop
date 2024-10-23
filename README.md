@@ -48,3 +48,4 @@ php artisan storage:link
 
 https://jetstream.laravel.com/ para a autenticação e configurações iniciais,
 https://primevue.org/ para alguns componentes e estruturas do front-end, https://undraw.co/illustrations para os svgs
+https://pinia.vuejs.org/getting-started.html para gerenciamento de estado entre componentes/páginas

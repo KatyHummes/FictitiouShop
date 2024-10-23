@@ -8,8 +8,9 @@ import { ZiggyVue } from '../../vendor/tightenco/ziggy';
 import PrimeVue from 'primevue/config';
 import Aura from '@primevue/themes/aura';
 import { MotionPlugin } from '@vueuse/motion'
+import { createPinia } from 'pinia';
 
-
+const pinia = createPinia();
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
 createInertiaApp({
@@ -20,6 +21,7 @@ createInertiaApp({
             .use(plugin)
             .use(ZiggyVue)
             .use(MotionPlugin)
+            .use(pinia)
             .use(PrimeVue, {
                 theme: {
                     preset: Aura
