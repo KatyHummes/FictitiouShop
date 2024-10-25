@@ -12,7 +12,6 @@ Route::get('/welcome', function () {
     ]);
 });
 
-
 Route::get('/', [ProductController::class, 'index'])->name('dashboard');
 
 Route::middleware([
@@ -20,4 +19,8 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
+    Route::get('/show', [ProductController::class, 'show'])->name('favorite.show');
+    Route::get('/favorites', [ProductController::class, 'favorites'])->name('favorites');
+    Route::post('/favorites', [ProductController::class, 'addFavorite'])->name('favorites.add');
+    Route::delete('/favorites/{id}', [ProductController::class, 'removeFavorite'])->name('favorites.remove');
 });

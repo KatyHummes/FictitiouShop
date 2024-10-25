@@ -47,7 +47,7 @@ cartItems.value = JSON.parse(localStorage.getItem('cart')) || [];
         <div class="hidden group-hover:inline-block px-2" v-motion-roll-visible-top>
             <i class="pi pi-shopping-cart"></i>
         </div>
-        <span class="text-xs">COMPRAR</span>
+        <span class="text-xs">FINALIZAR COMPRA</span>
         </Link>
     </div>
 </template>

@@ -256,9 +256,9 @@ const toggleCart = () => {
                             </div>
                             
                             <div class="flex">
-                                <button @click="addToFavorites(product)">
+                                <Link :href="route('favorite.show')">
                                     <i class="pi pi-heart-fill p-1"></i>
-                                </button>
+                                </Link>
                                 <!-- ver carrinho -->
                                 <button @click="toggleCart()">
                                     <i class="pi pi-cart-plus p-1"></i>
@@ -291,7 +291,7 @@ const toggleCart = () => {
                     class="sm:hidden">
                     <div class="pt-2 pb-3 space-y-1">
                         <ResponsiveNavLink :href="route('dashboard')" :active="route().current('dashboard')">
-                            Dashboard
+                            Home
                         </ResponsiveNavLink>
                     </div>
 
@@ -315,7 +315,7 @@ const toggleCart = () => {
 
                         <div class="mt-3 space-y-1">
                             <ResponsiveNavLink :href="route('profile.show')" :active="route().current('profile.show')">
-                                Profile
+                                Perfil
                             </ResponsiveNavLink>
 
                             <ResponsiveNavLink v-if="$page.props.jetstream.hasApiFeatures"
@@ -326,7 +326,7 @@ const toggleCart = () => {
                             <!-- Authentication -->
                             <form method="POST" @submit.prevent="logout">
                                 <ResponsiveNavLink as="button">
-                                    Log Out
+                                    Sair
                                 </ResponsiveNavLink>
                             </form>
 

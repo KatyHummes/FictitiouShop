@@ -32,7 +32,7 @@ class RoleSeeder extends Seeder
         $approveSeller = Permission::create(['name' => 'approve seller']); // aprovar vendedores
 
         
-        $buyer = Role::create(['name' => 'seller']);
+        $buyer = Role::create(['name' => 'buyer']);
         $buyer->givePermissionTo([ $buyProducts, $favoriteProducts, $evaluateProducts, $purchaseHistory ]);
         
         $seller = Role::create(['name' => 'seller']);
