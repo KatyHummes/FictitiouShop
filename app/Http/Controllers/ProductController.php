@@ -16,15 +16,23 @@ class ProductController extends Controller
 {
     public function index()
     {
-        $products = Product::with('tags', 'images', 'favorites')->get();
+        $products = Product::with('tags', 'favorites')->get();
         return Inertia::render('Dashboard', [
             'products' => $products
+        ]);
+    }
+
+    public function product($id)
+    {
+        $product = Product::with('tags', 'images', 'reviews', 'dimensions')->find($id);
+        return Inertia::render('Product', [
+            'product' => $product
         ]);
     }
     
     public function show(){
         $userId = Auth::user()->id;
-        $products = Product::with('tags', 'images', 'favorites')
+        $products = Product::with('tags', 'favorites')
         ->whereHas('favorites', function ($query) use ($userId) {
             $query->where('user_id', $userId);
         })
@@ -38,15 +46,13 @@ class ProductController extends Controller
     public function favorites()
     {
         $userId = Auth::user()->id;
-        $products = Product::with('tags', 'images', 'favorites')
+        $products = Product::with('tags', 'favorites')
         ->whereHas('favorites', function ($query) use ($userId) {
             $query->where('user_id', $userId);
         })
         ->get();
 
         return response()->json($products);
-
-        
     }
 
     public function addFavorite(Request $request)

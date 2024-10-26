@@ -13,6 +13,7 @@ Route::get('/welcome', function () {
 });
 
 Route::get('/', [ProductController::class, 'index'])->name('dashboard');
+Route::get('/product/{id}', [ProductController::class, 'product'])->name('product');
 
 Route::middleware([
     'auth:sanctum',

@@ -77,7 +77,7 @@ const toggleCart = () => {
                                 <InputGroupAddon>
                                     <i class="pi pi-search"></i>
                                 </InputGroupAddon>
-                                <InputText placeholder="Pesquise aqui" :suggestions="items" multiple fluid />
+                                <!-- <InputText placeholder="Pesquise aqui" :suggestions="items" multiple fluid /> -->
                             </InputGroup>
                         </div>
 

@@ -27,7 +27,7 @@ const handleAddToFavorite = (productId, isFavorite) => {
 
 onMounted(() => {
     favoriteStore.fetchFavorites();
-})
+});
 </script>
 <template>
     <div v-for="product in products" :key="product.id">
@@ -48,7 +48,7 @@ onMounted(() => {
             </div>
 
             <!-- Imagem do Produto -->
-            <Link :href="`/products/${product.id}`">
+            <Link :href="route('product', product.id)">
             <div class="flex items-center justify-center">
                 <img :src="product.thumbnail" alt="imagem do produto" class="w-32 rounded-md">
             </div>
@@ -73,8 +73,7 @@ onMounted(() => {
                             {{ formatPrice(applyDiscount(product.price,
                                 product.discount_percentage)) }}
                         </p>
-                        <p
-                            class="text-white text-ellipsis font-bold text-sm border-2 border-black bg-black rounded-full">
+                        <p class="text-white text-ellipsis font-bold text-sm border-2 border-black bg-black rounded-full">
                             {{ formatDiscount(product.discount_percentage) }}
                         </p>
                     </div>

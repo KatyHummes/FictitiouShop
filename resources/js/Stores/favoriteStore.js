@@ -38,9 +38,6 @@ export const useFavoriteStore = defineStore('favorites', {
             }
         },
         isFavorite(productId) {
-            console.log('call isFavorite:', productId);
-            console.log(this.favorites?.some(f => f.id === productId));
-
             return this.favorites?.some(f => f.id === productId); // Verificar se o favorito existe
         },
     },
