@@ -18,6 +18,12 @@ class AdminSeeder extends Seeder
             'name' => 'Admin',
             'email' => 'admin@admin.com',
             'password' => Hash::make('123123123'),
+            'cpf' => '82317564856',
+            'birth_date' => '2000-01-01',
+            'phone' => '11999999999',
+            'sex' => 'feminine',
+            'city' => 'Cidade',
+            'state' => 'SP',
         ]);
         $user->assignRole('admin');
     }

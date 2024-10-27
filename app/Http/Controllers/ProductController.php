@@ -25,8 +25,13 @@ class ProductController extends Controller
     public function product($id)
     {
         $product = Product::with('tags', 'images', 'reviews', 'dimensions')->find($id);
+        $relatedProducts = Product::where('category', $product->category)
+        ->where('id', '!=', $id)
+        ->take(10) // Retorna apenas 10 produtos relacionados
+        ->get();
         return Inertia::render('Product', [
-            'product' => $product
+            'product' => $product,
+            'relatedProducts' => $relatedProducts
         ]);
     }
     

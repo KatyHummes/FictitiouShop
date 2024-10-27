@@ -1,5 +1,5 @@
 <script setup>
-import { defineProps, onMounted } from 'vue';
+import { defineProps, onMounted, computed } from 'vue';
 import { Link } from '@inertiajs/vue3';
 import 'primeicons/primeicons.css';
 import { formatPrice, formatDiscount, applyDiscount, previewDescription } from '@/Pages/Utils/utils.js';
@@ -7,8 +7,13 @@ import { useCartStore } from '@/Stores/cartStore.js';
 import { useFavoriteStore } from '@/Stores/favoriteStore.js';
 
 const props = defineProps({
-    products: Array,
+    products: {
+        type: [Array, Object],
+        required: true
+    }
 });
+
+const isArray = computed(() => Array.isArray(props.products)); // Verificar se products é um array
 const cartStore = useCartStore();
 const favoriteStore = useFavoriteStore();
 

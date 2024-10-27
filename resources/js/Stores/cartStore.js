@@ -23,6 +23,10 @@ export const useCartStore = defineStore('cart', {
             console.log('Produto a ser removido:', product);
             this.items = this.items.filter(item => item.id !== product.id);
             console.log('Itens restantes no carrinho:', this.items);
+        },
+
+        isInCart(product) {
+            return this.items.some(item => item.id === product.id);
         }
     },
 

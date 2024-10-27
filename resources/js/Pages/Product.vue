@@ -6,9 +6,11 @@ import { formatPrice, formatDiscount, applyDiscount } from '@/Pages/Utils/utils.
 import Galleria from 'primevue/galleria';
 import { useFavoriteStore } from '@/Stores/favoriteStore.js';
 import { useCartStore } from '@/Stores/cartStore.js';
+import CardProduct from '@/Components/CardProduct.vue';
 
 const props = defineProps({
     product: Object,
+    relatedProducts: Array
 });
 
 const inside = ref(true);
@@ -52,7 +54,7 @@ const handleAddToCart = (product) => {
                     <div class="grid md:grid-cols-2 gap-4">
                         <div class="px-4">
                             <div class="grid grid-cols-3">
-                                <p class="text-gray-900 text-sm font-extralight">Nome do Vendedor</p>
+                                <p class="text-gray-900 text-sm font-extralight border-e-gray-900 ">Nome do Vendedor</p>
                                 <p>{{ product.rating }}</p>
                                 <div class="hidden group-hover:inline-block absolute top-2 right-4">
                                     <button
@@ -69,7 +71,7 @@ const handleAddToCart = (product) => {
                             </div>
 
                             <Galleria :value="product.images" :responsiveOptions="responsiveOptions" :numVisible="2"
-                                containerStyle="max-width: 640px ; border: bg-white; border-radius: 10px; margin-bottom: 16px">
+                                containerStyle="max-width: 640px; border: white; margin-bottom: 16px">
                                 <template #item="slotProps" class="">
                                     <img :src="slotProps.item.image_path" :alt="slotProps.item.alt" style="width: 100%"
                                         class="object-contain h-96" />
@@ -112,12 +114,24 @@ const handleAddToCart = (product) => {
                                 <span class="text-xs">COMPRAR</span>
                                 </Link>
                             </div>
-                            <div>
+                            <div class="px-4">
                                 <h1 class="text-xl font-bold text-center text-gray-900 py-4"><i
                                         class="pi pi-sparkles"></i> PRODUTOS
                                     RELACIONADOS</h1>
                                 <div>
-
+                                    <div v-if="relatedProducts && relatedProducts.length">
+                                        <Galleria :value="relatedProducts" :responsiveOptions="responsiveOptions"
+                                            :numVisible="2"
+                                            containerStyle="max-width: 640px; border: white; margin-bottom: 16px">
+                                            <!-- Exibir cada produto relacionado como um CardProduct no carrossel -->
+                                            <template #item="slotProps">
+                                                <CardProduct :product="slotProps.item" />
+                                            </template>
+                                        </Galleria>
+                                    </div>
+                                    <div v-else>
+                                        <p>Sem produtos relacionados</p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
