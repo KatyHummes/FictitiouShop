@@ -8,7 +8,7 @@ use App\Models\ProductImage;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\ProductTag;
-USE Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Inertia\Inertia;
 
@@ -26,22 +26,24 @@ class ProductController extends Controller
     {
         $product = Product::with('tags', 'images', 'reviews', 'dimensions')->find($id);
         $relatedProducts = Product::where('category', $product->category)
-        ->where('id', '!=', $id)
-        ->take(10) // Retorna apenas 10 produtos relacionados
-        ->get();
+            ->where('id', '!=', $id)
+            ->take(10) // Retorna apenas 10 produtos relacionados
+            ->get();
+        // dd($relatedProducts);
         return Inertia::render('Product', [
             'product' => $product,
             'relatedProducts' => $relatedProducts
         ]);
     }
-    
-    public function show(){
+
+    public function show()
+    {
         $userId = Auth::user()->id;
         $products = Product::with('tags', 'favorites')
-        ->whereHas('favorites', function ($query) use ($userId) {
-            $query->where('user_id', $userId);
-        })
-        ->get();
+            ->whereHas('favorites', function ($query) use ($userId) {
+                $query->where('user_id', $userId);
+            })
+            ->get();
 
         return Inertia::render('Favorites', [
             'products' => $products
@@ -52,10 +54,10 @@ class ProductController extends Controller
     {
         $userId = Auth::user()->id;
         $products = Product::with('tags', 'favorites')
-        ->whereHas('favorites', function ($query) use ($userId) {
-            $query->where('user_id', $userId);
-        })
-        ->get();
+            ->whereHas('favorites', function ($query) use ($userId) {
+                $query->where('user_id', $userId);
+            })
+            ->get();
 
         return response()->json($products);
     }
@@ -71,7 +73,7 @@ class ProductController extends Controller
     public function removeFavorite($id)
     {
         ProductFavorite::where('product_id', $id)
-        ->where('user_id', Auth::user()->id)
-        ->delete();
+            ->where('user_id', Auth::user()->id)
+            ->delete();
     }
 }

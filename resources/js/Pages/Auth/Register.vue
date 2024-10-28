@@ -52,7 +52,7 @@ const types = [
             <div class="mt-4">
                 <InputLabel for="type" value="Tipo" />
                 <Select v-model="form.type" :options="types" optionLabel="name" optionValue="code"
-                    placeholder="Qual é o seu gênero?" class="w-full" />
+                    placeholder="Selecione um tipo de usuário" class="w-full" />
                 <InputError class="mt-2" :message="form.errors.type" />
             </div>
 
