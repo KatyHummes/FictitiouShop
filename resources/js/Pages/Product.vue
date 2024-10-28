@@ -6,29 +6,35 @@ import { formatPrice, formatDiscount, applyDiscount } from '@/Pages/Utils/utils.
 import Galleria from 'primevue/galleria';
 import { useFavoriteStore } from '@/Stores/favoriteStore.js';
 import { useCartStore } from '@/Stores/cartStore.js';
-import CardProduct from '@/Components/CardProduct.vue';
+import RelatedProducts from '@/Components/RelatedProducts.vue';
 
 const props = defineProps({
     product: Object,
     relatedProducts: Array
 });
 
-const inside = ref(true);
-const position = ref('bottom');
-
-onMounted(() => {
-    console.log('Product', props.product);
-});
 const responsiveOptions = ref([
     {
-        breakpoint: '1300px',
+        breakpoint: '768px',
         numVisible: 2
     },
     {
-        breakpoint: '575px',
+        breakpoint: '640px',
         numVisible: 1
     }
 ]);
+
+const responsiveOptionsRelated = ref([
+    {
+        breakpoint: '768px	',
+        numVisible: 4
+    },
+    {
+        breakpoint: '640px',
+        numVisible: 2
+    }
+]);
+
 const favoriteStore = useFavoriteStore();
 const handleAddToFavorite = (productId, isFavorite) => {
     if (isFavorite) {
@@ -120,18 +126,39 @@ const handleAddToCart = (product) => {
                                     RELACIONADOS</h1>
                                 <div>
                                     <div v-if="relatedProducts && relatedProducts.length">
-                                        <Galleria :value="relatedProducts" :responsiveOptions="responsiveOptions"
-                                            :numVisible="2"
-                                            containerStyle="max-width: 640px; border: white; margin-bottom: 16px">
-                                            <!-- Exibir cada produto relacionado como um CardProduct no carrossel -->
-                                            <template #item="slotProps">
-                                                <CardProduct :product="slotProps.item" />
+                                        <Galleria :value="relatedProducts" :responsiveOptions="responsiveOptionsRelated"
+                                            :numVisible="2" class="h-20"
+                                            containerStyle="height: 200px; border: white; margin-bottom: 16px">
+
+                                            <template #thumbnail="slotProps">
+                                                <img :src="slotProps.item.thumbnail" :alt="slotProps.item.alt"
+                                                    class="object-contain h-20" />
+                                                <div class="flex justify-between">
+                                                    <p class="text-gray-500 text-xs font-extralight line-through">
+                                                        {{ formatPrice(product.price) }}
+                                                    </p>
+                                                </div>
+                                                <div class="flex gap-2">
+                                                    <p class="text-blue-600 text-base font-black">
+                                                        {{ formatPrice(applyDiscount(product.price,
+                                                            product.discount_percentage)) }}
+                                                    </p>
+                                                </div>
                                             </template>
                                         </Galleria>
                                     </div>
                                     <div v-else>
                                         <p>Sem produtos relacionados</p>
                                     </div>
+                                </div>
+                                <div>
+                                    <h1 class="text-xl font-bold text-center text-gray-900 py-4">DESCRIÇÃO:</h1>
+                                    <P class="font-extralight text-sm text-gray-600 py-4">{{ product.description }}</P>
+                                    <h2 class="text-xl font-bold text-center text-gray-900 py-4">TAMANHOS:</h2>
+                                    <div class="flex justify-between py-4">
+                                    <p class="font-extralight text-sm text-gray-600">Largura: {{ product.dimensions.width }}</p>
+                                    <p class="font-extralight text-sm text-gray-600">Altura: {{ product.dimensions.height }}</p>
+                                    <p class="font-extralight text-sm text-gray-600">Profundidade: {{ product.dimensions.depth }}</p></div>
                                 </div>
                             </div>
                         </div>

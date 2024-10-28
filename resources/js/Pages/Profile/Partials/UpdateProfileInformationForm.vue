@@ -8,6 +8,7 @@ import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import SecondaryButton from '@/Components/SecondaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
+import Select from 'primevue/select';
 
 const props = defineProps({
     user: Object,
@@ -47,7 +48,7 @@ const selectNewPhoto = () => {
 const updatePhotoPreview = () => {
     const photo = photoInput.value.files[0];
 
-    if (! photo) return;
+    if (!photo) return;
 
     const reader = new FileReader();
 
@@ -89,40 +90,27 @@ const clearPhotoFileInput = () => {
             <!-- Profile Photo -->
             <div v-if="$page.props.jetstream.managesProfilePhotos" class="col-span-6 sm:col-span-4">
                 <!-- Profile Photo File Input -->
-                <input
-                    id="photo"
-                    ref="photoInput"
-                    type="file"
-                    class="hidden"
-                    @change="updatePhotoPreview"
-                >
+                <input id="photo" ref="photoInput" type="file" class="hidden" @change="updatePhotoPreview">
 
                 <InputLabel for="photo" value="Photo" />
 
                 <!-- Current Profile Photo -->
-                <div v-show="! photoPreview" class="mt-2">
+                <div v-show="!photoPreview" class="mt-2">
                     <img :src="user.profile_photo_url" :alt="user.name" class="rounded-full h-20 w-20 object-cover">
                 </div>
 
                 <!-- New Profile Photo Preview -->
                 <div v-show="photoPreview" class="mt-2">
-                    <span
-                        class="block rounded-full w-20 h-20 bg-cover bg-no-repeat bg-center"
-                        :style="'background-image: url(\'' + photoPreview + '\');'"
-                    />
+                    <span class="block rounded-full w-20 h-20 bg-cover bg-no-repeat bg-center"
+                        :style="'background-image: url(\'' + photoPreview + '\');'" />
                 </div>
 
                 <SecondaryButton class="mt-2 me-2" type="button" @click.prevent="selectNewPhoto">
                     Selecione uma nova foto
                 </SecondaryButton>
 
-                <SecondaryButton
-                    v-if="user.profile_photo_path"
-                    type="button"
-                    class="mt-2"
-                    @click.prevent="deletePhoto"
-                >
-                Remover foto
+                <SecondaryButton v-if="user.profile_photo_path" type="button" class="mt-2" @click.prevent="deletePhoto">
+                    Remover foto
                 </SecondaryButton>
 
                 <InputError :message="form.errors.photo" class="mt-2" />
@@ -131,41 +119,25 @@ const clearPhotoFileInput = () => {
             <!-- Name -->
             <div class="col-span-6 sm:col-span-4">
                 <InputLabel for="name" value="Nome" />
-                <TextInput
-                    id="name"
-                    v-model="form.name"
-                    type="text"
-                    class="mt-1 block w-full"
-                    required
-                    autocomplete="name"
-                />
+                <TextInput id="name" v-model="form.name" type="text" class="mt-1 block w-full" required
+                    autocomplete="name" />
                 <InputError :message="form.errors.name" class="mt-2" />
             </div>
 
             <!-- Email -->
             <div class="col-span-6 sm:col-span-4">
                 <InputLabel for="email" value="Email" />
-                <TextInput
-                    id="email"
-                    v-model="form.email"
-                    type="email"
-                    class="mt-1 block w-full"
-                    required
-                    autocomplete="username"
-                />
+                <TextInput id="email" v-model="form.email" type="email" class="mt-1 block w-full" required
+                    autocomplete="username" />
                 <InputError :message="form.errors.email" class="mt-2" />
 
                 <div v-if="$page.props.jetstream.hasEmailVerification && user.email_verified_at === null">
                     <p class="text-sm mt-2">
                         Seu endereço de e-mail não foi verificado.
 
-                        <Link
-                            :href="route('verification.send')"
-                            method="post"
-                            as="button"
+                        <Link :href="route('verification.send')" method="post" as="button"
                             class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                            @click.prevent="sendEmailVerification"
-                        >
+                            @click.prevent="sendEmailVerification">
                         Clique aqui para reenviar o e-mail de verificação.
                         </Link>
                     </p>
@@ -174,6 +146,42 @@ const clearPhotoFileInput = () => {
                         Um novo link de verificação foi enviado para seu endereço de e-mail.
                     </div>
                 </div>
+            </div>
+
+            <!-- descrição -->
+            <div class="mt-4" v-if="form.type === 'buyer'">
+                <InputLabel for="phone" value="Celular" />
+                <TextInput id="phone" v-model="form.phone" type="text" class="mt-1 block w-full" autofocus />
+                <InputError class="mt-2" :message="form.errors.phone" />
+            </div>
+
+            <!-- Celular -->
+            <div class="mt-4" v-if="form.type === 'buyer'">
+                <InputLabel for="phone" value="Celular" />
+                <TextInput id="phone" v-model="form.phone" type="text" class="mt-1 block w-full" autofocus />
+                <InputError class="mt-2" :message="form.errors.phone" />
+            </div>
+
+            <!-- Gênero -->
+            <div class="mt-4" v-if="form.type === 'buyer'">
+                <InputLabel for="sex" value="Gênero" />
+                <Select v-model="form.sex" :options="genders" optionValue="code" optionLabel="name"
+                    placeholder="Qual é o seu gênero?" class="w-full" />
+                <InputError class="mt-2" :message="form.errors.sex" />
+            </div>
+            
+            <!-- Cidade -->
+            <div class="mt-4" v-if="form.type === 'buyer'">
+                <InputLabel for="city" value="Cidade" />
+                <TextInput id="city" v-model="form.city" type="text" class="mt-1 block w-full" autofocus />
+                <InputError class="mt-2" :message="form.errors.city" />
+            </div>
+            
+            <!-- Estado -->
+            <div class="mt-4" v-if="form.type === 'buyer'">
+                <InputLabel for="state" value="Estado" />
+                <TextInput id="state" v-model="form.state" type="text" class="mt-1 block w-full" autofocus />
+                <InputError class="mt-2" :message="form.errors.state" />
             </div>
         </template>
 
